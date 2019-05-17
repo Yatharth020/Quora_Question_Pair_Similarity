@@ -51,10 +51,9 @@ Metric(s):
 <h2> Approach to solve to problem</h2>
 <br>I approached this problem in 3 steps implementation:</br>
 
-<h3> BASIC FEATURE EXTRACTION</h3>
-These features were extracted before cleaning the data:
-<br>
- - <b>freq_qid1</b> = Frequency of qid1's
+<### Feature Extraction:
+- ##### Basic Features - Extracted some features before cleaning of data as below.
+  - <b>freq_qid1</b> = Frequency of qid1's
   - <b>freq_qid2</b> = Frequency of qid2's
   - <b>q1len</b> = Length of q1
   - <b>q2len</b> = Length of q2
@@ -65,3 +64,32 @@ These features were extracted before cleaning the data:
   - <b>word_share</b> = (word_common)/(word_Total)
   - <b>freq_q1+freq_q2</b> = sum total of frequency of qid1 and qid2
   - <b>freq_q1-freq_q2</b> = absolute difference of frequency of qid1 and qid2
+- ##### Advanced Features - Did some preprocessing of texts and extracted some other features.Used fuzzywuzzy 
+  - <b>cwc_min</b> = common_word_count / (min(len(q1_words), len(q2_words)) 
+  - <b>cwc_max</b> = common_word_count / (max(len(q1_words), len(q2_words)) 
+  - <b>csc_min</b> = common_stop_count / (min(len(q1_stops), len(q2_stops)) 
+  - <b>csc_max</b> = common_stop_count / (max(len(q1_stops), len(q2_stops)) 
+  - <b>ctc_min</b> = common_token_count / (min(len(q1_tokens), len(q2_tokens)) 
+  - <b>ctc_max</b> = common_token_count / (max(len(q1_tokens), len(q2_tokens)) 
+  - <b>last_word_eq</b> = Check if Last word of both questions is equal or not (int(q1_tokens[-1] == q2_tokens[-1]))
+  - <b>first_word_eq</b> = Check if First word of both questions is equal or not (int(q1_tokens[0] == q2_tokens[0]) )
+  - <b>abs_len_diff</b> = abs(len(q1_tokens) - len(q2_tokens))
+  - <b>mean_len</b> = (len(q1_tokens) + len(q2_tokens))/2
+  - <b>fuzz_ratio</b> = How much percentage these two strings are similar, measured with edit distance.
+  - <b>fuzz_partial_ratio</b> = if two strings are of noticeably different lengths, we are getting the score of the best matching lowest length substring.
+  - <b>token_sort_ratio</b> = sorting the tokens in string and then scoring fuzz_ratio.
+  - <b>longest_substr_ratio</b> = len(longest common substring) / (min(len(q1_tokens), len(q2_tokens))
+- ##### Extracted Tf-Idf features for this combained question1 and question2 and got 1,2,3 gram features with Train data. Transformed test data into same vector space. 
+- ##### Got [Word Movers Distance](http://proceedings.mlr.press/v37/kusnerb15.pdf) with pretrained glove word vectors. 
+
+### Machine Learning Models:
+   - Trained a random model to check Worst case log loss and got log loss as 0.887699
+   - Trained some models and also tuned hyperparameters using Random and Grid search.
+   ##### Tokenizer: TFIDF Weighted W2V
+
+<p>After that we have applied Logistic Regression on ~100K dataset with hyperparameter tuning, which producs the log loss of 0.50, which is significantly lower than Random Model.We have applied Linear SVM on ~100K dataset with hyperparameter tuning, which produces the log loss of 0.48, which is slightly lower than Logistic Regression.We applied XGBoost Model on ~100k dataset with no hyperparameter tuning, which produces the log loss of 0.35, which is significantly lower than Linear SVM.
+Finally, we applied XGBoost Model on ~100k dataset with hyperparameter tuning, which produces the log loss of 0.34, which is slightly lower than XGBoost Model with no hyperparameter tuning.As we know that, on high dimension dataset 'XGBoost' does not perform well, but it does perform well in above dataset because of low dimension of 794.Whereas 'Logistic Regression' and 'Linear SVM' performs moderately on low dimension data.To test this, we performed 'Logistic Regression' and 'Linear SVM' on complete ~400k dataset, and we got better results as compared to above models.<p>
+ </br>
+  ##### Tokenizer: TFIDF
+<p> First we have applied simple Random Model(Dumb Model), which gives the log loss of 0.74, that means, the other models has to produce  less than 0.74.After that we have applied Logistic Regression on ~400K dataset with hyperparameter tuning, which produces the log loss of 0.45, which is significantly lower than Random Model, also it is lower than previous logistic regression model(performed using TFIDF Weighted W2V).We have applied Linear SVM on ~400K dataset with hyperparameter tuning, which produces the log loss of 0.45, which is similar to Logistic Regression, but it is lower than previous Linear SVM model(performed using TFIDF Weighted W2V).
+Finally for this case study, we conclude that on low dimesion data,we will use hyperparameter tuned 'XGBoost' model and for high dimension data we will use either 'Linear SVM' or 'Logistic Regression'<p>
