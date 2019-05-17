@@ -54,14 +54,14 @@ Metric(s):
 <h3> BASIC FEATURE EXTRACTION</h3>
 These features were extracted before cleaning the data:
 <br>
- - ____freq_qid1____ = Frequency of qid1's<br>
- - ____freq_qid2____ = Frequency of qid2's <br>
- - ____q1len____ = Length of q1<br>
- - ____q2len____ = Length of q2<br>
- - ____q1_n_words____ = Number of words in Question 1<br>
- - ____q2_n_words____ = Number of words in Question 2<br>
- - ____word_Common____ = (Number of common unique words in Question 1 and Question 2)<br>
- - ____word_Total____ =(Total num of words in Question 1 + Total num of words in Question 2)<br>
- - ____word_share____ = (word_common)/(word_Total)<br>
- - ____freq_q1+freq_q2____ = sum total of frequency of qid1 and qid2 <br>
- - ____freq_q1-freq_q2____ = absolute difference of frequency of qid1 and qid2 <br>
+ - <b>freq_qid1</b> = Frequency of qid1's
+  - <b>freq_qid2</b> = Frequency of qid2's
+  - <b>q1len</b> = Length of q1
+  - <b>q2len</b> = Length of q2
+  - <b>q1_n_words</b> = Number of words in Question 1
+  - <b>q2_n_words</b> = Number of words in Question 2
+  - <b>word_Common</b> = (Number of common unique words in Question 1 and Question 2)
+  - <b>word_Total</b> =(Total num of words in Question 1 + Total num of words in Question 2)
+  - <b>word_share</b> = (word_common)/(word_Total)
+  - <b>freq_q1+freq_q2</b> = sum total of frequency of qid1 and qid2
+  - <b>freq_q1-freq_q2</b> = absolute difference of frequency of qid1 and qid2
